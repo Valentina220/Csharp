@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassTriangle
+namespace ClassShape
 {
-    class Triangle
+    class Triangle: Shape
     {
-        public double a;
-        public double b;
-        public double c;
+        private double a;
+        private double b;
+        private double c;
 
         public Triangle(double a, double b, double c)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
+           if (isTriangle(a,b,c))
+            {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+            }
+            
         }
 
         public Triangle(double a)
@@ -26,54 +30,64 @@ namespace ClassTriangle
             this.c = a;
         }
 
-        //public void WriteSides()
-        //{
-        //    Console.WriteLine("Enter the sides of triangle: ");
-        //    Console.WriteLine("a= ");
-        //    a = double.Parse(Console.ReadLine());
-        //    Console.WriteLine("b= ");
-        //    b = double.Parse(Console.ReadLine());
-        //    Console.WriteLine("c= ");
-        //    c = double.Parse(Console.ReadLine());
-
-        //}
-
-        public string isTriangle()
+        private bool isTriangle(double a, double b, double c)
         {
             {
-                if (a + b > c && a + c > b && b + c > a)
+                if (a > 0 && b >0 && c > 0 && a + b > c && a + c > b && b + c > a)
                 {
                     //Console.WriteLine("triangle exists");
-                    return "triangle exists";
+                    return true;
                 }
                 else
                 {
                     //Console.WriteLine("triangle doesn't exist");
-                    return "triangle doesn't exist";
+                    return false;
                 }
             }
         }
 
-        public double Perimetr()
-        {
-            return a + b + c;
+        public string ExistString()
+        {            
+            string s;
+            if (isTriangle(a, b, c))
+            {
+                s = "Длины сторон треугольника: " + a + "; " + b + "; " + c;
+            }
+            else
+            {
+                s = "Такого треугольника не существует";
+            }
+            return s;
+
         }
 
-        public double Square()
+        //base.ToString();
+
+        public override string ClassName()
+        {            
+            string name = "Треугольник";
+            return name;
+        }
+        public override double Perimetr()
+        {
+           double p = a + b + c;
+           return p;
+        }
+        public override double Area()
         {
             return Math.Sqrt(Perimetr() * (Perimetr() - a) * (Perimetr() - b) * (Perimetr() - c));
         }
-
-        //public void PrintSides()
-        //{
-        //    Console.WriteLine("a is {0}, b is {1}, c is {2}", a, b, c);
-        //}
-
-        public void Print()
-        {
-            //Console.WriteLine("Perimetr = {0}", Perimetr());
-            //Console.WriteLine("Square = {0}", Square());
-            Console.WriteLine("a is {0}, b is {1}, c is {2}\n", a, b, c);
-        }
     }
+
+    //new public void Show()
+    //{
+    //    Console.WriteLine(Perimetr());
+    //}
+
+    //public override string ToString()
+    //{
+    //    string res;
+    //    res = "Периметр треугольника равен = " + p + "Площадь треугольника равна = " + Area();
+    //    return res;
+    //}
 }
