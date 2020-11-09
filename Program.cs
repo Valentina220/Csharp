@@ -1,45 +1,61 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace University
+namespace DistanceOverload
 {
+    public class Distance
+    {
+        public int ft;
+        public double inch;
+        
+        public Distance(int ft, double inch)
+        {
+            this.ft = ft;
+            this.inch = inch;
+        }
+        public Distance() 
+        { }
+
+        public static Distance operator +(Distance d1, Distance d2)
+        {
+            return new Distance { ft = d1.ft + d2.ft + (int)((d1.inch + d2.inch) / 12), inch = (d1.inch + d2.inch)%12 };            
+        }
+
+        public static Distance operator -(Distance d1, Distance d2)
+        {
+            if (d1.inch > d2.inch)
+            {
+                return new Distance { ft = d1.ft - d2.ft, inch = d1.inch - d2.inch };
+            }
+            else
+            {
+                return new Distance { ft = (d1.ft-1) - d2.ft, inch = (d1.inch + 12) - d2.inch };
+            }
+            
+        }         
+
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            ArrayList list1 = new ArrayList();
-            list1.Add(new Student("Иванов", "13.04.1998", "ФКиО", 1161, 4.6, 5, 0));
+            Distance dist1 = new Distance(13, 5);
+            Distance dist2 = new Distance(7, 8);           
 
-            foreach (Student b in list1)
-            {
-                Console.WriteLine(b.ClassName());
-                b.Show();
-                Console.WriteLine(b.Work());
-            }
+            Distance dist3 = dist1 + dist2;
+            Distance dist4 = dist1 - dist2;
 
-            ArrayList list2 = new ArrayList();
-            list2.Add(new Lecturer("Бабаев", "28.11.1965", "ФКиО", "д.т.н.", 32));
 
-            foreach (Lecturer b in list2)
-            {
-                Console.WriteLine(b.ClassName());
-                b.Show();
-                Console.WriteLine(b.Work());
-            }
-            
-            //Person[] myPerson = { new Student("Иванов", "13.04.1998","ФКиО", 1161, 4.6, 5, 0), new Lecturer("Бабаев", "28.11.1965","ФКиО", "д.т.н.", 32), 
-            //    new Dean("Рюмин","11.03.1972","ФКиО","к.т.н.", 25), new Manager("Куркин","15.01.1981","ФКиО", 9) };
+            Console.WriteLine("Результат сложения\n");
+            Console.WriteLine("{0}' - {1}''\n", + dist3.ft, +dist3.inch);
+            Console.WriteLine("Результат вычитания\n");
+            Console.WriteLine("{0}' - {1}''\n", +dist4.ft, +dist4.inch);            
 
-            //foreach (Person p in myPerson)
-            //{
-            //    Console.WriteLine(p.ClassName());
-            //    p.Show();
-            //    Console.WriteLine(p.Work());                                             
-            //}            
         }
     }
+
 }
